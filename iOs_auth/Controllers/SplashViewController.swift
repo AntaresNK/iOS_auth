@@ -10,6 +10,9 @@ import SnapKit
 
 class SplashViewController: UIViewController {
     
+    let rootVCSplash = "splashVC"
+    
+    
     let logoImage: UIImageView = {
             let image = UIImageView()
             image.image = UIImage(named: "logo")
@@ -51,6 +54,7 @@ class SplashViewController: UIViewController {
         button.setTitle("Есть аккаунт? Войти", for: .normal)
         button.setTitleColor(UIColor(red: 41/255, green: 41/255, blue: 41/255, alpha: 1), for: .normal)
         button.titleLabel?.font = UIFont(name: "GothamPro-Bold", size: 16)
+        button.addTarget(self, action: #selector(signinButtonTouched), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -58,6 +62,7 @@ class SplashViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
+        navigationController?.customize()
         setupViews()
     }
     
@@ -104,8 +109,17 @@ class SplashViewController: UIViewController {
     
     @objc func signupButtonTouched() {
         let signupVC = SignupViewController()
-        signupVC.modalPresentationStyle = .fullScreen
-        present(signupVC, animated: true)
+        signupVC.rootVCSignup = rootVCSplash
+        signupVC.modalPresentationStyle = .overFullScreen
+        navigationItem.title = ""
+        navigationController?.show(signupVC, sender: self)
+    }
+    
+    @objc func signinButtonTouched() {
+        let signinVC = SigninViewController()
+        signinVC.modalPresentationStyle = .overFullScreen
+        navigationItem.title = ""
+        navigationController?.show(signinVC, sender: self)
     }
     
 }

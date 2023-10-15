@@ -8,33 +8,23 @@
 import UIKit
 
 class CreatePasswordViewController: UIViewController, UITextFieldDelegate {
+    var rootVCPassword = ""
+    let rootVCSplash = "splashVC"
+    let rootVCSignin = "signinVC"
     
-    let navigationBar: UINavigationBar = {
-        let backButton = UIBarButtonItem(image: UIImage(named: "backIcon"), style: .plain, target: self, action: #selector(backButtonTouched))
-        
-        let navigationBar = UINavigationBar()
-        navigationBar.setItems([UINavigationItem(title: "Создать пароль")], animated: false)
-        navigationBar.topItem?.setLeftBarButton(backButton, animated: false)
-        navigationBar.backgroundColor = nil
-        navigationBar.translatesAutoresizingMaskIntoConstraints = false
-        return navigationBar
-    }()
-    
-    let passwordTextField: UITextField = {
-        let textField = UITextField()
-        textField.configureTextField()
+    let passwordTextField: TextFieldDelegate = {
+        let textField = TextFieldDelegate()
+        textField.setPlaceholderText(text: "Придумайте пароль")
         textField.isSecureTextEntry = true
-        textField.placeholder = "Придумайте пароль"
-        textField.addTarget(self, action: #selector(isValidPassword), for: .allEditingEvents)
+        textField.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
         return textField
     }()
     
-    let repeatPasswordTextField: UITextField = {
-        let textField = UITextField()
-        textField.configureTextField()
+    let repeatPasswordTextField: TextFieldDelegate = {
+        let textField = TextFieldDelegate()
+        textField.setPlaceholderText(text: "Повторите пароль")
         textField.isSecureTextEntry = true
-        textField.placeholder = "Повторите пароль"
-        textField.addTarget(self, action: #selector(isValidPassword), for: .allEditingEvents)
+        textField.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
         return textField
     }()
     
@@ -93,12 +83,8 @@ class CreatePasswordViewController: UIViewController, UITextFieldDelegate {
     let nextButton: UIButton = {
         let button = UIButton()
         button.setTitle("Далее", for: .normal)
-        button.titleLabel?.font = UIFont(name: "GothamPro-Bold", size: 16)
-        button.layer.cornerRadius = 8
-        button.backgroundColor = UIColor(red: 247/255, green: 247/255, blue: 248/255, alpha: 1)
-        button.setTitleColor(UIColor(red: 156/255, green: 164/255, blue: 171/255, alpha: 1), for: .normal)
-        //button.addTarget(self, action: #selector(nextButtonTapped), for: .touchUpInside)
-        button.translatesAutoresizingMaskIntoConstraints = false
+        button.configureButton()
+        button.addTarget(self, action: #selector(nextButtonTapped), for: .touchUpInside)
         return button
     }()
 
@@ -108,33 +94,28 @@ class CreatePasswordViewController: UIViewController, UITextFieldDelegate {
 
         view.backgroundColor = .white
         passwordTextField.delegate = self
-        
         setupViews()
     }
 
     func setupViews() {
+        if rootVCPassword == rootVCSplash {
+            title = "Создать пароль"
+        } else if rootVCPassword == rootVCSignin {
+            title = "Сброс пароля"
+        }
+        
         hideKeyboardWhenTappedAraound()
-        setNavigationView()
         setTextFields()
         setShowPassword()
         setShowPassword1()
         setStackView()
         setNextButton()
     }
-
-    
-    func setNavigationView() {
-        view.addSubview(navigationBar)
-        navigationBar.snp.makeConstraints { make in
-            make.horizontalEdges.equalToSuperview()
-            make.top.equalTo(view.snp.topMargin)
-        }
-    }
     
     func setTextFields() {
         view.addSubview(passwordTextField)
         passwordTextField.snp.makeConstraints { make in
-            make.top.equalTo(navigationBar.snp.bottom).offset(40)
+            make.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(40)
             make.horizontalEdges.equalToSuperview().inset(20)
         }
         
@@ -149,7 +130,7 @@ class CreatePasswordViewController: UIViewController, UITextFieldDelegate {
         view.addSubview(showPasswordButton)
         showPasswordButton.snp.makeConstraints { make in
             make.trailing.equalTo(passwordTextField.snp.trailing).offset(-10)
-            make.bottom.equalTo(passwordTextField.snp.bottom).offset(-9)
+            make.bottom.equalTo(passwordTextField.snp.bottom).offset(-10)
             make.size.equalTo(24)
         }
     }
@@ -189,12 +170,84 @@ class CreatePasswordViewController: UIViewController, UITextFieldDelegate {
         }
     }
     
+    @objc func textFieldDidChange() {
+        let isPasswordFieldEmpty = passwordTextField.text?.isEmpty ?? true
+        let isRepeatPasswordTextField = repeatPasswordTextField.text?.isEmpty ?? true
+        
+        if !isPasswordFieldEmpty {
+            showPasswordButton.setImage(UIImage(named: "eye-disable"), for: .normal)
+            showPasswordButton.snp.remakeConstraints { make in
+                make.trailing.equalTo(passwordTextField.snp.trailing).offset(-10)
+                make.bottom.equalTo(passwordTextField.snp.bottom).offset(-10)
+                make.size.equalTo(24)
+            }
+        } else {
+            showPasswordButton.setImage(UIImage(named: "Vector"), for: .normal)
+            showPasswordButton.snp.remakeConstraints { make in
+                make.trailing.equalTo(passwordTextField.snp.trailing).offset(-10)
+                make.bottom.equalTo(passwordTextField.snp.bottom).offset(-18)
+                make.size.equalTo(24)
+            }
+        }
+        
+        if !isRepeatPasswordTextField {
+            showPasswordButton1.setImage(UIImage(named: "eye-disable"), for: .normal)
+            showPasswordButton1.snp.remakeConstraints { make in
+                make.trailing.equalTo(repeatPasswordTextField.snp.trailing).offset(-10)
+                make.bottom.equalTo(repeatPasswordTextField.snp.bottom).offset(-10)
+                make.size.equalTo(24)
+            }
+        } else {
+            showPasswordButton1.setImage(UIImage(named: "Vector"), for: .normal)
+            showPasswordButton1.snp.remakeConstraints { make in
+                make.trailing.equalTo(repeatPasswordTextField.snp.trailing).offset(-10)
+                make.bottom.equalTo(repeatPasswordTextField.snp.bottom).offset(-18)
+                make.size.equalTo(24)
+            }
+        }
+        
+        isValidPassword()
+        
+    }
+    
     @objc func showPassword() {
         passwordTextField.isSecureTextEntry.toggle()
+        if passwordTextField.isSecureTextEntry {
+            showPasswordButton.setImage(UIImage(named: "eye-disable"), for: .normal)
+            showPasswordButton.snp.remakeConstraints { make in
+                make.trailing.equalTo(passwordTextField.snp.trailing).offset(-10)
+                make.bottom.equalTo(passwordTextField.snp.bottom).offset(-10)
+                make.size.equalTo(24)
+            }
+        } else {
+            showPasswordButton.setImage(UIImage(named: "Vector"), for: .normal)
+            showPasswordButton.snp.remakeConstraints { make in
+                make.trailing.equalTo(passwordTextField.snp.trailing).offset(-10)
+                make.bottom.equalTo(passwordTextField.snp.bottom).offset(-10)
+                make.size.equalTo(24)
+            }
+        }
+        
     }
     
     @objc func showPassword1() {
         repeatPasswordTextField.isSecureTextEntry.toggle()
+        if repeatPasswordTextField.isSecureTextEntry {
+            showPasswordButton1.setImage(UIImage(named: "eye-disable"), for: .normal)
+            showPasswordButton1.snp.remakeConstraints { make in
+                make.trailing.equalTo(repeatPasswordTextField.snp.trailing).offset(-10)
+                make.bottom.equalTo(repeatPasswordTextField.snp.bottom).offset(-10)
+                make.size.equalTo(24)
+            }
+        } else {
+            showPasswordButton1.setImage(UIImage(named: "Vector"), for: .normal)
+            showPasswordButton1.snp.remakeConstraints { make in
+                make.trailing.equalTo(repeatPasswordTextField.snp.trailing).offset(-10)
+                make.bottom.equalTo(repeatPasswordTextField.snp.bottom).offset(-10)
+                make.size.equalTo(24)
+            }
+        }
+        
     }
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
@@ -219,7 +272,7 @@ class CreatePasswordViewController: UIViewController, UITextFieldDelegate {
         return NSPredicate(format: "SELF MATCHES %@", specialSymbolRegex).evaluate(with: text)
     }
     
-    @objc func isValidPassword() {
+    func isValidPassword() {
         let text = passwordTextField.text ?? ""
         let text1 = repeatPasswordTextField.text ?? ""
         
@@ -253,6 +306,12 @@ class CreatePasswordViewController: UIViewController, UITextFieldDelegate {
         }
     }
     
+    @objc func nextButtonTapped() {
+        let splashVC = SplashViewController()
+        splashVC.modalPresentationStyle = .overFullScreen
+        present(splashVC, animated: true)
+    }
+    
     @objc func backButtonTouched() {
         self.dismissView()
     }
@@ -270,9 +329,4 @@ class CreatePasswordViewController: UIViewController, UITextFieldDelegate {
     @objc func dismissKeyboard() {
         view.endEditing(true)
     }
-    
-    
-    
-    
-
 }

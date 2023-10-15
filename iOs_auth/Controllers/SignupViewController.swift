@@ -11,17 +11,9 @@ import SnapKit
 class SignupViewController: UIViewController, UITextFieldDelegate {
     
     var email = ""
-    
-    let navigationBar: UINavigationBar = {
-        let backButton = UIBarButtonItem(image: UIImage(named: "backIcon"), style: .plain, target: self, action: #selector(backButtonTouched))
-        
-        let navigationBar = UINavigationBar()
-        navigationBar.setItems([UINavigationItem(title: "Регистрация")], animated: false)
-        navigationBar.topItem?.setLeftBarButton(backButton, animated: false)
-        navigationBar.backgroundColor = nil
-        navigationBar.translatesAutoresizingMaskIntoConstraints = false
-        return navigationBar
-    }()
+    var rootVCSignup = ""
+    let rootVCSplash = "splashVC"
+    let rootVCSignin = "signinVC"
     
     let logoImage: UIImageView = {
             let image = UIImageView()
@@ -46,14 +38,10 @@ class SignupViewController: UIViewController, UITextFieldDelegate {
         return label
     }()
     
-    let emailTextField: UITextField = {
-        let textField = UITextField()
-        textField.configureTextField()
-        textField.placeholder = "Электронная почта"
-        let placeholderLabel = UILabel()
-        placeholderLabel.font = UIFont.systemFont(ofSize: 17)
-        placeholderLabel.textColor = UIColor.lightGray
-        textField.addSubview(placeholderLabel)
+    let emailTextField: TextFieldDelegate = {
+        let textField = TextFieldDelegate()
+        textField.setPlaceholderText(text: "Электронная почта")
+        textField.keyboardType = .emailAddress
         textField.addTarget(self, action: #selector(emailTyped), for: .allEditingEvents)
         return textField
     }()
@@ -73,12 +61,8 @@ class SignupViewController: UIViewController, UITextFieldDelegate {
     let nextButton: UIButton = {
         let button = UIButton()
         button.setTitle("Далее", for: .normal)
-        button.titleLabel?.font = UIFont(name: "GothamPro-Bold", size: 16)
-        button.layer.cornerRadius = 8
-        button.backgroundColor = UIColor(red: 247/255, green: 247/255, blue: 248/255, alpha: 1)
-        button.setTitleColor(UIColor(red: 156/255, green: 164/255, blue: 171/255, alpha: 1), for: .normal)
+        button.configureButton()
         button.addTarget(self, action: #selector(nextButtonTapped), for: .touchUpInside)
-        button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
 
@@ -89,28 +73,23 @@ class SignupViewController: UIViewController, UITextFieldDelegate {
     }
 
     func setupViews() {
+        if rootVCSignup == rootVCSplash {
+            title = "Регистрация"
+        } else if rootVCSignup == rootVCSignin {
+            title = "Сброс пароля"
+        }
         hideKeyboardWhenTappedAraound()
-        setNavigationView()
         setLogoImage()
         setMotoLabel()
         setEmailTextField()
         setWarningLabel()
         setNextButton()
         }
-        
-    
-    func setNavigationView() {
-        view.addSubview(navigationBar)
-        navigationBar.snp.makeConstraints { make in
-            make.horizontalEdges.equalToSuperview()
-            make.top.equalTo(view.snp.topMargin)
-        }
-    }
     
     func setLogoImage() {
         view.addSubview(logoImage)
         logoImage.snp.makeConstraints { make in
-            make.top.equalTo(navigationBar.snp.bottom).offset(13)
+            make.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(13)
             make.trailing.equalToSuperview().offset(-20)
             make.size.equalTo(80)
         }
@@ -119,7 +98,7 @@ class SignupViewController: UIViewController, UITextFieldDelegate {
     func setMotoLabel() {
         view.addSubview(motoLabel)
         motoLabel.snp.makeConstraints { make in
-            make.top.equalTo(navigationBar.snp.bottom).offset(28)
+            make.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(28)
             make.horizontalEdges.equalToSuperview().inset(20)
         }
     }
@@ -145,7 +124,7 @@ class SignupViewController: UIViewController, UITextFieldDelegate {
         nextButton.isEnabled = false
         view.addSubview(nextButton)
         nextButton.snp.makeConstraints { make in
-            make.height.equalTo(60)
+            make.height.equalTo(65)
             make.horizontalEdges.equalToSuperview().inset(20)
             make.top.equalTo(emailTextField.snp.bottom).offset(60)
         }
@@ -171,8 +150,8 @@ class SignupViewController: UIViewController, UITextFieldDelegate {
     
     func isValidEmail(_ email: String) -> Bool {
        let emailRegEx = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}"
-
        let emailPred = NSPredicate(format:"SELF MATCHES %@", emailRegEx)
+        
        return emailPred.evaluate(with: email)
    }
     
@@ -180,6 +159,7 @@ class SignupViewController: UIViewController, UITextFieldDelegate {
         if nextButton.isEnabled {
             let alertVC = AlertViewController()
             alertVC.emailLabel = email
+            alertVC.rootVCAlert = rootVCSignup
             alertVC.modalPresentationStyle = .overFullScreen
             present(alertVC, animated: true)
         }
@@ -202,8 +182,5 @@ class SignupViewController: UIViewController, UITextFieldDelegate {
     @objc func dismissKeyboard() {
         view.endEditing(true)
     }
-    
-    
-
 }
 

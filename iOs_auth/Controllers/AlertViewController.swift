@@ -8,6 +8,10 @@
 import UIKit
 
 class AlertViewController: UIViewController {
+    var rootVCAlert = ""
+    let rootVCSplash = "splashVC"
+    let rootVCSignin = "signinVC"
+    
     var emailLabel = ""
     
     let backgroundView: UIView = {
@@ -114,9 +118,20 @@ class AlertViewController: UIViewController {
     }
     
     @objc func closeButtonTapped() {
-        let profileVC = ProfileViewController()
-        profileVC.modalPresentationStyle = .overFullScreen
-        present(profileVC, animated: true)
+        if rootVCAlert == rootVCSplash {
+            let profileVC = ProfileViewController()
+            profileVC.email = emailLabel
+            profileVC.modalPresentationStyle = .fullScreen
+            self.view.window?.rootViewController = UINavigationController(rootViewController: profileVC)
+            self.view.window?.makeKeyAndVisible()
+            
+        } else if rootVCAlert == rootVCSignin {
+            let createPassVC = CreatePasswordViewController()
+            createPassVC.rootVCPassword = rootVCSignin
+            createPassVC.modalPresentationStyle = .fullScreen
+            self.view.window?.rootViewController = UINavigationController(rootViewController: createPassVC)
+            self.view.window?.makeKeyAndVisible()
+        }
     }
     
     func hideKeyboardWhenTappedAraound() {
