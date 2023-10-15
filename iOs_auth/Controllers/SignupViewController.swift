@@ -11,6 +11,7 @@ import SnapKit
 class SignupViewController: UIViewController, UITextFieldDelegate {
     
     var email = ""
+    var registeredEmail = "qwerty@gmail.co"
     var rootVCSignup = ""
     let rootVCSplash = "splashVC"
     let rootVCSignin = "signinVC"
@@ -42,7 +43,7 @@ class SignupViewController: UIViewController, UITextFieldDelegate {
         let textField = TextFieldDelegate()
         textField.setPlaceholderText(text: "Электронная почта")
         textField.keyboardType = .emailAddress
-        textField.addTarget(self, action: #selector(emailTyped), for: .allEditingEvents)
+        textField.addTarget(self, action: #selector(emailTyped), for: .editingChanged)
         return textField
     }()
     
@@ -134,20 +135,34 @@ class SignupViewController: UIViewController, UITextFieldDelegate {
         email = emailTextField.text!
         
         if email.isEmpty {
+            warningLabel.isHidden = true
             return
         }
         
-        if isValidEmail(email) {
-            nextButton.isEnabled = true
-            nextButton.backgroundColor = UIColor(red: 93/255, green: 95/255, blue: 219/255, alpha: 1)
-            nextButton.setTitleColor(.white, for: .normal)
+       if email.lowercased() == registeredEmail {
+           let attributes: [NSAttributedString.Key: Any] = [ .foregroundColor: UIColor.red ]
+           emailTextField.attributedText = NSAttributedString(string: emailTextField.text ?? "", attributes: attributes)
+            emailTextField.layer.borderWidth = 1.0
+            emailTextField.layer.borderColor = UIColor.red.cgColor
+            warningLabel.isHidden = false
+       } else {
+           let attributes: [NSAttributedString.Key: Any] = [ .foregroundColor: UIColor.black ]
+           emailTextField.attributedText = NSAttributedString(string: emailTextField.text ?? "", attributes: attributes)
+            emailTextField.layer.borderColor = CGColor(red: 245/255, green: 245/255, blue: 245/255, alpha: 1)
+            warningLabel.isHidden = true
+       }
+       
+       if isValidEmail(email) {
+           nextButton.isEnabled = true
+           nextButton.backgroundColor = UIColor(red: 93/255, green: 95/255, blue: 219/255, alpha: 1)
+           nextButton.setTitleColor(.white, for: .normal)
         } else {
             nextButton.isEnabled = false
             nextButton.backgroundColor = UIColor(red: 247/255, green: 247/255, blue: 248/255, alpha: 1)
             nextButton.setTitleColor(UIColor(red: 156/255, green: 164/255, blue: 171/255, alpha: 1), for: .normal)
         }
-    }
-    
+   }
+       
     func isValidEmail(_ email: String) -> Bool {
        let emailRegEx = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}"
        let emailPred = NSPredicate(format:"SELF MATCHES %@", emailRegEx)

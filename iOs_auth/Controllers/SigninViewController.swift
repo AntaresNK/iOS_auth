@@ -9,7 +9,7 @@ import UIKit
 
 class SigninViewController: UIViewController, UITextFieldDelegate {
     let rootVCSignin = "signinVC"
-    let email = "qwerty@gmail.com"
+    let email = "qwerty@gmail.co"
     let password = "Qwer23#"
     
     let logoImage: UIImageView = {
