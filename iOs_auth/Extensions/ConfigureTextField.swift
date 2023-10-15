@@ -37,6 +37,13 @@ class TextFieldDelegate: UITextField {
             }
         }
     
+    func textFieldHasText() {
+        UIView.animate(withDuration: 0.1) {
+            self.placeholderLabel.frame.origin = CGPoint(x: 16, y: 5)
+            self.placeholderLabel.font = UIFont(name: "GothamPro", size: 12)
+        }
+    }
+    
     func configurePlaceholder() {
         placeholderLabel.font = UIFont(name: "GothamPro", size: 16)
         placeholderLabel.textColor = UIColor.lightGray
@@ -69,7 +76,8 @@ class TextFieldDelegate: UITextField {
         }
         
         configurePlaceholder()
-        addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
+        addTarget(self, action: #selector(textFieldDidChange(_:)), for: .allEvents)
+        
     }
 }
 

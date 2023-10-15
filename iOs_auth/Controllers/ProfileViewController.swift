@@ -23,14 +23,12 @@ class ProfileViewController: UIViewController, UITextFieldDelegate {
     let nameTextField: TextFieldDelegate = {
         let textField = TextFieldDelegate()
         textField.setPlaceholderText(text: "Имя")
-        textField.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
         return textField
     }()
     
     let lastnameTextField: TextFieldDelegate = {
         let textField = TextFieldDelegate()
         textField.setPlaceholderText(text: "Фамилия")
-        textField.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
         return textField
     }()
     
@@ -38,15 +36,14 @@ class ProfileViewController: UIViewController, UITextFieldDelegate {
         let textField = TextFieldDelegate()
         textField.setPlaceholderText(text: "Дата рождения")
         textField.keyboardType = .decimalPad
-        textField.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
         return textField
     }()
     
     let emailTextField: TextFieldDelegate = {
         let textField = TextFieldDelegate()
         textField.setPlaceholderText(text: "Электронная почта")
-        textField.keyboardType = .emailAddress
-        textField.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
+        textField.isUserInteractionEnabled = false
+        textField.textFieldHasText()
         return textField
     }()
     
@@ -63,11 +60,10 @@ class ProfileViewController: UIViewController, UITextFieldDelegate {
         view.backgroundColor = .white
         title = "Профиль"
         navigationController?.customize()
-   //     birthDateTextField.delegate = self
+        birthDateTextField.delegate = self
         hideKeyboardWhenTappedAraound()
         setupViews()
         setSignupButton()
-        
     }
     
     func setupViews() {
@@ -84,6 +80,10 @@ class ProfileViewController: UIViewController, UITextFieldDelegate {
         stackView.addArrangedSubview(lastnameTextField)
         stackView.addArrangedSubview(birthDateTextField)
         stackView.addArrangedSubview(emailTextField)
+        nameTextField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
+        lastnameTextField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
+        birthDateTextField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
+        
         emailTextField.text = email
     }
     
@@ -98,61 +98,51 @@ class ProfileViewController: UIViewController, UITextFieldDelegate {
     }
     
     
-    func shouldChangeCharactersIn(currentText: String, range: NSRange, replacementString: String) -> Bool {
-        let currentText = (birthDateTextField.text ?? "") as NSString
-        
-        if replacementString.isEmpty {
-            return true
-        }
-        
-        if replacementString.rangeOfCharacter(from: CharacterSet.decimalDigits.inverted) == nil {
-            if currentText.length < 10 {
-                switch currentText.length {
-                case 2, 5:
-                    birthDateTextField.text = birthDateTextField.text! + ".\(replacementString)"
-                case 10:
-                    return false
-                default:
-                    birthDateTextField.text = birthDateTextField.text! + replacementString
-                }
-                return false
-            }
-        }
-        return false
-    }
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        textFieldDidChange(birthDateTextField)
+             let currentText = (textField.text ?? "") as NSString
+
+             if string.isEmpty {
+                 return true
+             }
+
+             if string.rangeOfCharacter(from: CharacterSet.decimalDigits.inverted) == nil {
+                 if currentText.length < 10 {
+                     switch currentText.length {
+                     case 2, 5:
+                         textField.text = textField.text! + ".\(string)"
+                     case 10:
+                         return false
+                     default:
+                         textField.text = textField.text! + string
+                     }
+                     
+                     return false
+                 }
+             }
+             return false
+         }
     
-    @objc func textFieldDidChange() {
+    @objc func textFieldDidChange(_ textField: UITextField) {
         enableSignupButton()
     }
     
     func enableSignupButton() {
-        let email = emailTextField.text!
-       
         let isNameFieldEmpty = nameTextField.text?.isEmpty ?? true
         let isLastnameFieldEmpty = lastnameTextField.text?.isEmpty ?? true
         let isBirthDateFieldEmpty = birthDateTextField.text?.isEmpty ?? true
         let isEmailFieldEmpty = emailTextField.text?.isEmpty ?? true
 
         if !isNameFieldEmpty && !isLastnameFieldEmpty && !isBirthDateFieldEmpty && !isEmailFieldEmpty {
-            if isValidEmail(email) {
                 signupButton.isEnabled = true
                 signupButton.backgroundColor = UIColor(red: 93/255, green: 95/255, blue: 219/255, alpha: 1)
                 signupButton.setTitleColor(.white, for: .normal)
-            }
         } else {
             signupButton.isEnabled = false
             signupButton.backgroundColor = UIColor(red: 247/255, green: 247/255, blue: 248/255, alpha: 1)
             signupButton.setTitleColor(UIColor(red: 156/255, green: 164/255, blue: 171/255, alpha: 1), for: .normal)
         }
-        
      }
-    
-    func isValidEmail(_ email: String) -> Bool {
-       let emailRegEx = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}"
-
-       let emailPred = NSPredicate(format:"SELF MATCHES %@", emailRegEx)
-       return emailPred.evaluate(with: email)
-   }
     
     @objc func signupButtonTapped() {
         let createPassVC = CreatePasswordViewController()
