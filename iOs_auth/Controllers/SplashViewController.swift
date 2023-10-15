@@ -12,7 +12,6 @@ class SplashViewController: UIViewController {
     
     let rootVCSplash = "splashVC"
     
-    
     let logoImage: UIImageView = {
             let image = UIImageView()
             image.image = UIImage(named: "logo")
@@ -121,5 +120,4 @@ class SplashViewController: UIViewController {
         navigationItem.title = ""
         navigationController?.show(signinVC, sender: self)
     }
-    
 }

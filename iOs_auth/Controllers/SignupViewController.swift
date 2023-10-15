@@ -20,7 +20,7 @@ class SignupViewController: UIViewController, UITextFieldDelegate {
             image.image = UIImage(named: "logo")
             image.translatesAutoresizingMaskIntoConstraints = false
             return image
-        }()
+    }()
     
     let motoLabel: UILabel = {
         let label = UILabel()
