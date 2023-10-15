@@ -23,19 +23,19 @@ class TextFieldDelegate: UITextField {
     }
     
     @objc dynamic func textFieldDidChange(_ textField: UITextField) {
-            if let text = textField.text, !text.isEmpty {
-                UIView.animate(withDuration: 0.3) {
-                    self.placeholderLabel.frame.origin = CGPoint(x: 16, y: 5)
-                    self.placeholderLabel.font = UIFont(name: "GothamPro", size: 12)
-                }
-            } else {
-                UIView.animate(withDuration: 0.3) {
-                    self.placeholderLabel.frame.origin = CGPoint(x: 16, y: 22)
-                    self.placeholderLabel.font = UIFont(name: "GothamPro", size: 16)
-                    self.configureTextField()
-                }
+        if let text = textField.text, !text.isEmpty {
+            UIView.animate(withDuration: 0.3) {
+                self.placeholderLabel.frame.origin = CGPoint(x: 16, y: 5)
+                self.placeholderLabel.font = UIFont(name: "GothamPro", size: 12)
+            }
+        } else {
+            UIView.animate(withDuration: 0.3) {
+                self.placeholderLabel.frame.origin = CGPoint(x: 16, y: 22)
+                self.placeholderLabel.font = UIFont(name: "GothamPro", size: 16)
+                self.configureTextField()
             }
         }
+    }
     
     func textFieldHasText() {
         UIView.animate(withDuration: 0.1) {
@@ -77,10 +77,8 @@ class TextFieldDelegate: UITextField {
         
         configurePlaceholder()
         addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
-        
     }
 }
-
 
 class BirthDateTextField: TextFieldDelegate {
     
