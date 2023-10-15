@@ -49,8 +49,7 @@ class AlertViewController: UIViewController {
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
-
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -66,7 +65,6 @@ class AlertViewController: UIViewController {
             make.height.equalTo(343)
             make.centerY.equalToSuperview()
         }
-        
         setCloseButton()
         setEmailLabel()
         setLogoImage()
@@ -143,5 +141,4 @@ class AlertViewController: UIViewController {
     @objc func dismissKeyboard() {
         view.endEditing(true)
     }
-
 }

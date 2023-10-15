@@ -90,7 +90,6 @@ class CreatePasswordViewController: UIViewController, UITextFieldDelegate {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
         view.backgroundColor = .white
         passwordTextField.delegate = self
         setupViews()
@@ -102,7 +101,6 @@ class CreatePasswordViewController: UIViewController, UITextFieldDelegate {
         } else if rootVCPassword == rootVCSignin {
             title = "Сброс пароля"
         }
-        
         hideKeyboardWhenTappedAraound()
         setTextFields()
         setShowPassword()
@@ -204,7 +202,6 @@ class CreatePasswordViewController: UIViewController, UITextFieldDelegate {
                 make.size.equalTo(24)
             }
         }
-        
         isValidPassword()
     }
     

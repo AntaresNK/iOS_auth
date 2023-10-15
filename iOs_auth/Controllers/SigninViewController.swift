@@ -8,9 +8,7 @@
 import UIKit
 
 class SigninViewController: UIViewController, UITextFieldDelegate {
-    
     let rootVCSignin = "signinVC"
-    
     let email = "qwerty@gmail.com"
     let password = "Qwer23#"
     
@@ -73,7 +71,7 @@ class SigninViewController: UIViewController, UITextFieldDelegate {
         button.setTitle("Забыли пароль?", for: .normal)
         button.setTitleColor(UIColor(red: 41/255, green: 41/255, blue: 41/255, alpha: 1), for: .normal)
         button.titleLabel?.font = UIFont(name: "GothamPro-Bold", size: 16)
-        button.addTarget(self, action: #selector(forgorPassword), for: .touchUpInside)
+        button.addTarget(self, action: #selector(forgotPassword), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -175,13 +173,12 @@ class SigninViewController: UIViewController, UITextFieldDelegate {
                 make.size.equalTo(24)
             }
         }
-        
         isAuthorised()
     }
     
     func textFieldDidEndEditing(_ textField: UITextField) {
         if email != emailTextField.text?.lowercased() && password != passwordTextField.text {
-                
+            
             let attributes: [NSAttributedString.Key: Any] = [ .foregroundColor: UIColor.red ]
             emailTextField.attributedText = NSAttributedString(string: emailTextField.text ?? "", attributes: attributes)
             passwordTextField.textColor = .red
@@ -231,7 +228,6 @@ class SigninViewController: UIViewController, UITextFieldDelegate {
         
         let currentEmail = emailTextField.text!.lowercased()
         let currentPassword = passwordTextField.text!
-        
         if email == currentEmail && password == currentPassword {
             nextButton.isEnabled = true
             nextButton.backgroundColor = UIColor(red: 93/255, green: 95/255, blue: 219/255, alpha: 1)
@@ -243,7 +239,7 @@ class SigninViewController: UIViewController, UITextFieldDelegate {
         }
     }
     
-    @objc func forgorPassword() {
+    @objc func forgotPassword() {
         let signupVC = SignupViewController()
         signupVC.rootVCSignup = rootVCSignin
         signupVC.modalPresentationStyle = .overFullScreen
