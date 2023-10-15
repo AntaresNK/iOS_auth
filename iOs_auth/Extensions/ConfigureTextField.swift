@@ -22,7 +22,7 @@ class TextFieldDelegate: UITextField {
         configureTextField()
     }
     
-    @objc private func textFieldDidChange(_ textField: UITextField) {
+    @objc dynamic func textFieldDidChange(_ textField: UITextField) {
             if let text = textField.text, !text.isEmpty {
                 UIView.animate(withDuration: 0.3) {
                     self.placeholderLabel.frame.origin = CGPoint(x: 16, y: 5)
@@ -76,9 +76,47 @@ class TextFieldDelegate: UITextField {
         }
         
         configurePlaceholder()
-        addTarget(self, action: #selector(textFieldDidChange(_:)), for: .allEvents)
+        addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
         
     }
 }
 
 
+class BirthDateTextField: TextFieldDelegate {
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        configureTextField()
+    }
+    
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+        configureTextField()
+    }
+    
+    override func configureTextField() {
+        super.configureTextField()
+        self.keyboardType = .numbersAndPunctuation
+        
+        addTarget(self, action: #selector(birthDateTextFieldDidChange), for: .editingChanged)
+    }
+    
+    @objc func birthDateTextFieldDidChange() {
+        if var text = self.text {
+            text = text.components(separatedBy: CharacterSet.decimalDigits.inverted).joined()
+            
+            if text.count > 8 {
+                text = String(text.prefix(8))
+            }
+            
+            if text.count > 2 && text.index(text.startIndex, offsetBy: 2) != text.index(text.startIndex, offsetBy: 3) {
+                text.insert(".", at: text.index(text.startIndex, offsetBy: 2))
+            }
+            
+            if text.count > 5 && text.index(text.startIndex, offsetBy: 5) != text.index(text.startIndex, offsetBy: 6) {
+                text.insert(".", at: text.index(text.startIndex, offsetBy: 5))
+            }
+            self.text = text
+        }
+    }
+}

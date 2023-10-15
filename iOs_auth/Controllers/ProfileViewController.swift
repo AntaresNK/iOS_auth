@@ -32,8 +32,8 @@ class ProfileViewController: UIViewController, UITextFieldDelegate {
         return textField
     }()
     
-    let birthDateTextField: TextFieldDelegate = {
-        let textField = TextFieldDelegate()
+    let birthDateTextField: BirthDateTextField = {
+        let textField = BirthDateTextField()
         textField.setPlaceholderText(text: "Дата рождения")
         textField.keyboardType = .decimalPad
         return textField
@@ -60,7 +60,7 @@ class ProfileViewController: UIViewController, UITextFieldDelegate {
         view.backgroundColor = .white
         title = "Профиль"
         navigationController?.customize()
-        birthDateTextField.delegate = self
+       // birthDateTextField.delegate = self
         hideKeyboardWhenTappedAraound()
         setupViews()
         setSignupButton()
@@ -98,7 +98,7 @@ class ProfileViewController: UIViewController, UITextFieldDelegate {
     }
     
     
-    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+  /*  func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         textFieldDidChange(birthDateTextField)
              let currentText = (textField.text ?? "") as NSString
 
@@ -121,7 +121,7 @@ class ProfileViewController: UIViewController, UITextFieldDelegate {
                  }
              }
              return false
-         }
+         } */
     
     @objc func textFieldDidChange(_ textField: UITextField) {
         enableSignupButton()

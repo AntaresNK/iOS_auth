@@ -62,7 +62,7 @@ class SigninViewController: UIViewController, UITextFieldDelegate {
         let button = UIButton()
         button.setTitle("Войти", for: .normal)
         button.configureButton()
-     //   button.addTarget(self, action: #selector(nextButtonTapped), for: .touchUpInside)
+        button.addTarget(self, action: #selector(nextButtonTapped), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -180,23 +180,19 @@ class SigninViewController: UIViewController, UITextFieldDelegate {
     }
     
     func textFieldDidEndEditing(_ textField: UITextField) {
-        if email == emailTextField.text?.lowercased() && password == passwordTextField.text {
-            emailTextField.layer.borderColor = CGColor(red: 245/255, green: 245/255, blue: 245/255, alpha: 1)
-            passwordTextField.layer.borderColor = CGColor(red: 245/255, green: 245/255, blue: 245/255, alpha: 1)
-          
-            emailTextField.textColor = .black
-            passwordTextField.textColor = .black
-        } else {
+        if email != emailTextField.text?.lowercased() && password != passwordTextField.text {
+                
+            let attributes: [NSAttributedString.Key: Any] = [ .foregroundColor: UIColor.red ]
+            emailTextField.attributedText = NSAttributedString(string: emailTextField.text ?? "", attributes: attributes)
+            passwordTextField.textColor = .red
+            
             emailTextField.layer.borderWidth = 1.0
             passwordTextField.layer.borderWidth = 1.0
             emailTextField.layer.borderColor = UIColor.red.cgColor
             passwordTextField.layer.borderColor = UIColor.red.cgColor
-            emailTextField.textColor = .red
-            passwordTextField.textColor = .red
             
             warningLabel.isHidden = false
         }
-        
     }
     
     @objc func showPassword() {
@@ -253,6 +249,12 @@ class SigninViewController: UIViewController, UITextFieldDelegate {
         signupVC.modalPresentationStyle = .overFullScreen
         navigationItem.title = ""
         navigationController?.show(signupVC, sender: self)
+    }
+    
+    @objc func nextButtonTapped() {
+        let splashVC = SplashViewController()
+        splashVC.modalPresentationStyle = .overFullScreen
+        present(splashVC, animated: true)
     }
     
     @objc func backButtonTouched() {

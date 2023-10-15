@@ -88,7 +88,6 @@ class CreatePasswordViewController: UIViewController, UITextFieldDelegate {
         return button
     }()
 
-    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -207,7 +206,6 @@ class CreatePasswordViewController: UIViewController, UITextFieldDelegate {
         }
         
         isValidPassword()
-        
     }
     
     @objc func showPassword() {
@@ -227,7 +225,6 @@ class CreatePasswordViewController: UIViewController, UITextFieldDelegate {
                 make.size.equalTo(24)
             }
         }
-        
     }
     
     @objc func showPassword1() {
@@ -247,7 +244,6 @@ class CreatePasswordViewController: UIViewController, UITextFieldDelegate {
                 make.size.equalTo(24)
             }
         }
-        
     }
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
