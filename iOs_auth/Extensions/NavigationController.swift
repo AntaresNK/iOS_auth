@@ -15,11 +15,8 @@ extension UINavigationController {
         
         self.navigationBar.tintColor = UIColor(red: 101/255, green: 101/255, blue: 101/255, alpha: 1)
 
-        UIBarButtonItem.appearance().setTitleTextAttributes(
-            [
-                .foregroundColor: UIColor(white: 0, alpha: 0)
-            ],
-            for: .normal
+        UIBarButtonItem.appearance().setTitleTextAttributes([
+                .foregroundColor: UIColor(white: 0, alpha: 0) ], for: .normal
         )
     }
 }
