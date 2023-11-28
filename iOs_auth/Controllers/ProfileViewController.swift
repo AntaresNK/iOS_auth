@@ -60,7 +60,6 @@ class ProfileViewController: UIViewController, UITextFieldDelegate {
         view.backgroundColor = .white
         title = "Профиль"
         navigationController?.customize()
-       // birthDateTextField.delegate = self
         hideKeyboardWhenTappedAraound()
         setupViews()
         setSignupButton()
@@ -97,32 +96,6 @@ class ProfileViewController: UIViewController, UITextFieldDelegate {
         }
     }
     
-    
-  /*  func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        textFieldDidChange(birthDateTextField)
-             let currentText = (textField.text ?? "") as NSString
-
-             if string.isEmpty {
-                 return true
-             }
-
-             if string.rangeOfCharacter(from: CharacterSet.decimalDigits.inverted) == nil {
-                 if currentText.length < 10 {
-                     switch currentText.length {
-                     case 2, 5:
-                         textField.text = textField.text! + ".\(string)"
-                     case 10:
-                         return false
-                     default:
-                         textField.text = textField.text! + string
-                     }
-                     
-                     return false
-                 }
-             }
-             return false
-         } */
-    
     @objc func textFieldDidChange(_ textField: UITextField) {
         enableSignupButton()
     }
@@ -133,7 +106,7 @@ class ProfileViewController: UIViewController, UITextFieldDelegate {
         let isBirthDateFieldEmpty = birthDateTextField.text?.isEmpty ?? true
         let isEmailFieldEmpty = emailTextField.text?.isEmpty ?? true
 
-        if !isNameFieldEmpty && !isLastnameFieldEmpty && !isBirthDateFieldEmpty && !isEmailFieldEmpty {
+        if !isNameFieldEmpty && !isLastnameFieldEmpty && !isBirthDateFieldEmpty && !isEmailFieldEmpty && birthDateTextField.text?.count == 10{
                 signupButton.isEnabled = true
                 signupButton.backgroundColor = UIColor(red: 93/255, green: 95/255, blue: 219/255, alpha: 1)
                 signupButton.setTitleColor(.white, for: .normal)

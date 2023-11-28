@@ -9,8 +9,9 @@ import UIKit
 
 class CreatePasswordViewController: UIViewController, UITextFieldDelegate {
     var rootVCPassword = ""
-    let rootVCSplash = "splashVC"
+    let rootVCSignup = "splashVC"
     let rootVCSignin = "signinVC"
+    let rootVCReset = "resetVC"
     
     let passwordTextField: TextFieldDelegate = {
         let textField = TextFieldDelegate()
@@ -18,6 +19,18 @@ class CreatePasswordViewController: UIViewController, UITextFieldDelegate {
         textField.isSecureTextEntry = true
         textField.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
         return textField
+    }()
+    
+    let warningLabel: UILabel = {
+        let label = UILabel()
+        label.text = "Минимальная длина — 8 символов"
+        label.font = UIFont(name: "GothamPro-Medium", size: 14)
+        label.textColor = .red
+        label.textAlignment = .left
+        label.numberOfLines = 0
+        label.isHidden = true
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
     }()
     
     let repeatPasswordTextField: TextFieldDelegate = {
@@ -93,20 +106,21 @@ class CreatePasswordViewController: UIViewController, UITextFieldDelegate {
         view.backgroundColor = .white
         passwordTextField.delegate = self
         setupViews()
+        hideKeyboardWhenTappedAraound()
     }
 
     func setupViews() {
-        if rootVCPassword == rootVCSplash {
+        if rootVCPassword == rootVCSignup {
             title = "Создать пароль"
         } else if rootVCPassword == rootVCSignin {
             title = "Сброс пароля"
         }
-        hideKeyboardWhenTappedAraound()
         setTextFields()
         setShowPassword()
         setShowPassword1()
         setStackView()
         setNextButton()
+        setWarningLabel()
     }
     
     func setTextFields() {
@@ -138,6 +152,14 @@ class CreatePasswordViewController: UIViewController, UITextFieldDelegate {
             make.trailing.equalTo(repeatPasswordTextField.snp.trailing).offset(-10)
             make.bottom.equalTo(repeatPasswordTextField.snp.bottom).offset(-9)
             make.size.equalTo(24)
+        }
+    }
+    
+    func setWarningLabel() {
+        view.addSubview(warningLabel)
+        warningLabel.snp.makeConstraints { make in
+            make.horizontalEdges.equalTo(passwordTextField)
+            make.top.equalTo(passwordTextField.snp.bottom).offset(8)
         }
     }
     
@@ -265,6 +287,10 @@ class CreatePasswordViewController: UIViewController, UITextFieldDelegate {
         return NSPredicate(format: "SELF MATCHES %@", specialSymbolRegex).evaluate(with: text)
     }
     
+    func countsEight(text: String) -> Bool {
+        return text.count > 7 && text.count < 16
+    }
+    
     func isValidPassword() {
         let text = passwordTextField.text ?? ""
         let text1 = repeatPasswordTextField.text ?? ""
@@ -287,9 +313,15 @@ class CreatePasswordViewController: UIViewController, UITextFieldDelegate {
             symbolsLabel.textColor = .lightGray
         }
         
+        if countsEight(text: text) {
+            warningLabel.isHidden = true
+        } else {
+            warningLabel.isHidden = false
+        }
+        
         if !text.isEmpty && !text1.isEmpty && text==text1 {
             equalPassLabel.textColor = UIColor(red: 93/255, green: 95/255, blue: 239/255, alpha: 1)
-            if containsUppercaseLetter(text: text) && containsNumber(text: text) && containsSpecialSymbol(text: text) {
+            if containsUppercaseLetter(text: text) && containsNumber(text: text) && containsSpecialSymbol(text: text) && countsEight(text: text) {
                 nextButton.isEnabled = true
                 nextButton.backgroundColor = UIColor(red: 93/255, green: 95/255, blue: 219/255, alpha: 1)
                 nextButton.setTitleColor(.white, for: .normal)
@@ -300,9 +332,16 @@ class CreatePasswordViewController: UIViewController, UITextFieldDelegate {
     }
     
     @objc func nextButtonTapped() {
-        let splashVC = SplashViewController()
-        splashVC.modalPresentationStyle = .overFullScreen
-        present(splashVC, animated: true)
+        if rootVCPassword == rootVCSignup {
+            let splashVC = SplashViewController()
+            splashVC.modalPresentationStyle = .overFullScreen
+            present(splashVC, animated: true)
+        } else if rootVCPassword == rootVCSignin{
+            let signinVC = SigninViewController()
+            signinVC.rootVCReset = rootVCReset
+            signinVC.modalPresentationStyle = .overFullScreen
+            present(signinVC, animated: true)
+        }
     }
     
     @objc func backButtonTouched() {

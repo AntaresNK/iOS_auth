@@ -9,15 +9,16 @@ import UIKit
 
 class SigninViewController: UIViewController, UITextFieldDelegate {
     let rootVCSignin = "signinVC"
+    var rootVCReset = ""
     let email = "qwerty@gmail.co"
-    let password = "Qwer23#"
+    let password = "Qwerty23#"
     
     let logoImage: UIImageView = {
-            let image = UIImageView()
-            image.image = UIImage(named: "logo")
-            image.translatesAutoresizingMaskIntoConstraints = false
-            return image
-        }()
+        let image = UIImageView()
+        image.image = UIImage(named: "logo")
+        image.translatesAutoresizingMaskIntoConstraints = false
+        return image
+    }()
     
     let emailTextField: TextFieldDelegate = {
         let textField = TextFieldDelegate()
@@ -79,12 +80,20 @@ class SigninViewController: UIViewController, UITextFieldDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
+        
         setupViews()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        if rootVCReset == "resetVC" {
+            let popupVC = PopUpViewController()
+            popupVC.modalPresentationStyle = .overFullScreen
+            present(popupVC, animated: true)
+        }
     }
 
     func setupViews() {
         title = "Авторизация"
-        hideKeyboardWhenTappedAraound()
         setLogoImage()
         setEmailTexfield()
         setPasswordTexfield()
@@ -92,6 +101,7 @@ class SigninViewController: UIViewController, UITextFieldDelegate {
         setWarningLabel()
         setNextButton()
         setForgotPasswordButton()
+        hideKeyboardWhenTappedAraound()
     }
     
     func setLogoImage() {
@@ -206,6 +216,7 @@ class SigninViewController: UIViewController, UITextFieldDelegate {
             return
         }
         passwordTextField.isSecureTextEntry.toggle()
+        
         if passwordTextField.isSecureTextEntry {
             showPasswordButton.setImage(UIImage(named: "eye-disable"), for: .normal)
             showPasswordButton.snp.remakeConstraints { make in
@@ -223,7 +234,7 @@ class SigninViewController: UIViewController, UITextFieldDelegate {
         }
     }
     
-    @objc func isAuthorised() {
+     @objc func isAuthorised() {
         let isEmailFieldEmpty = emailTextField.text?.isEmpty ?? true
         
         if isEmailFieldEmpty {
@@ -235,6 +246,7 @@ class SigninViewController: UIViewController, UITextFieldDelegate {
         
         let currentEmail = emailTextField.text!.lowercased()
         let currentPassword = passwordTextField.text!
+        
         if email == currentEmail && password == currentPassword {
             nextButton.isEnabled = true
             nextButton.backgroundColor = UIColor(red: 93/255, green: 95/255, blue: 219/255, alpha: 1)

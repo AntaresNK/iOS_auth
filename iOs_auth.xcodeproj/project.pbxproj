@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		810613CF2B15FCF40018120E /* PopUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 810613CE2B15FCF40018120E /* PopUpViewController.swift */; };
 		816668FB2AC88641002FF68A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 816668FA2AC88641002FF68A /* AppDelegate.swift */; };
 		816668FD2AC88642002FF68A /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 816668FC2AC88642002FF68A /* SceneDelegate.swift */; };
 		816668FF2AC88642002FF68A /* SignupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 816668FE2AC88642002FF68A /* SignupViewController.swift */; };
@@ -25,7 +26,7 @@
 		8174E9A32AD92ED5009DF8D6 /* CreatePasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8174E9A22AD92ED5009DF8D6 /* CreatePasswordViewController.swift */; };
 		8174E9A72AD93C9A009DF8D6 /* ConfigureLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8174E9A62AD93C9A009DF8D6 /* ConfigureLabel.swift */; };
 		8174E9A92AD982B4009DF8D6 /* SigninViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8174E9A82AD982B4009DF8D6 /* SigninViewController.swift */; };
-		8174E9AB2AD98CD8009DF8D6 /* NavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8174E9AA2AD98CD8009DF8D6 /* NavigationController.swift */; };
+		8174E9AB2AD98CD8009DF8D6 /* ConfigureNavigation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8174E9AA2AD98CD8009DF8D6 /* ConfigureNavigation.swift */; };
 		81EBD8512ACCA2FE00B6FB57 /* ConfigureTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81EBD8502ACCA2FE00B6FB57 /* ConfigureTextField.swift */; };
 		81EBD8532ACD62F700B6FB57 /* ConfigureButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81EBD8522ACD62F700B6FB57 /* ConfigureButton.swift */; };
 /* End PBXBuildFile section */
@@ -48,6 +49,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		810613CE2B15FCF40018120E /* PopUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopUpViewController.swift; sourceTree = "<group>"; };
 		816668F72AC88641002FF68A /* iOs_auth.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iOs_auth.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		816668FA2AC88641002FF68A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		816668FC2AC88642002FF68A /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -69,7 +71,7 @@
 		8174E9A22AD92ED5009DF8D6 /* CreatePasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatePasswordViewController.swift; sourceTree = "<group>"; };
 		8174E9A62AD93C9A009DF8D6 /* ConfigureLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigureLabel.swift; sourceTree = "<group>"; };
 		8174E9A82AD982B4009DF8D6 /* SigninViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SigninViewController.swift; sourceTree = "<group>"; };
-		8174E9AA2AD98CD8009DF8D6 /* NavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationController.swift; sourceTree = "<group>"; };
+		8174E9AA2AD98CD8009DF8D6 /* ConfigureNavigation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigureNavigation.swift; sourceTree = "<group>"; };
 		81EBD8502ACCA2FE00B6FB57 /* ConfigureTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigureTextField.swift; sourceTree = "<group>"; };
 		81EBD8522ACD62F700B6FB57 /* ConfigureButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigureButton.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -171,6 +173,7 @@
 				8174E99E2AD91547009DF8D6 /* ProfileViewController.swift */,
 				8174E9A22AD92ED5009DF8D6 /* CreatePasswordViewController.swift */,
 				8174E9A82AD982B4009DF8D6 /* SigninViewController.swift */,
+				810613CE2B15FCF40018120E /* PopUpViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -181,7 +184,7 @@
 				81EBD8502ACCA2FE00B6FB57 /* ConfigureTextField.swift */,
 				81EBD8522ACD62F700B6FB57 /* ConfigureButton.swift */,
 				8174E9A62AD93C9A009DF8D6 /* ConfigureLabel.swift */,
-				8174E9AA2AD98CD8009DF8D6 /* NavigationController.swift */,
+				8174E9AA2AD98CD8009DF8D6 /* ConfigureNavigation.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -326,12 +329,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				816668FF2AC88642002FF68A /* SignupViewController.swift in Sources */,
-				8174E9AB2AD98CD8009DF8D6 /* NavigationController.swift in Sources */,
+				8174E9AB2AD98CD8009DF8D6 /* ConfigureNavigation.swift in Sources */,
 				8174E99D2AD7F2B7009DF8D6 /* AlertViewController.swift in Sources */,
 				8174E9A92AD982B4009DF8D6 /* SigninViewController.swift in Sources */,
 				816668FB2AC88641002FF68A /* AppDelegate.swift in Sources */,
 				81EBD8532ACD62F700B6FB57 /* ConfigureButton.swift in Sources */,
 				8174E9A32AD92ED5009DF8D6 /* CreatePasswordViewController.swift in Sources */,
+				810613CF2B15FCF40018120E /* PopUpViewController.swift in Sources */,
 				8166692E2ACBDCF3002FF68A /* SplashViewController.swift in Sources */,
 				81EBD8512ACCA2FE00B6FB57 /* ConfigureTextField.swift in Sources */,
 				8174E9A72AD93C9A009DF8D6 /* ConfigureLabel.swift in Sources */,

@@ -60,6 +60,7 @@ class TextFieldDelegate: UITextField {
     func configureTextField() {
         self.font = UIFont(name: "GothamPro-Medium", size: 16)
         self.textAlignment = .left
+
         self.borderStyle = .roundedRect
         self.layer.cornerRadius = 8
         self.layer.borderColor = CGColor(red: 245/255, green: 245/255, blue: 245/255, alpha: 1)

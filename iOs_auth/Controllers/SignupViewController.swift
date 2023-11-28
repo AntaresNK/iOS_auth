@@ -49,7 +49,7 @@ class SignupViewController: UIViewController, UITextFieldDelegate {
     
     let warningLabel: UILabel = {
         let label = UILabel()
-        label.text = "Данная почта уже зарегистривана"
+        label.text = "Данная почта уже зарегистрирована"
         label.font = UIFont(name: "GothamPro-Medium", size: 14)
         label.textColor = .red
         label.textAlignment = .center
@@ -71,6 +71,7 @@ class SignupViewController: UIViewController, UITextFieldDelegate {
         super.viewDidLoad()
         view.backgroundColor = .white
         setupViews()
+        hideKeyboardWhenTappedAraound()
     }
 
     func setupViews() {
@@ -79,7 +80,6 @@ class SignupViewController: UIViewController, UITextFieldDelegate {
         } else if rootVCSignup == rootVCSignin {
             title = "Сброс пароля"
         }
-        hideKeyboardWhenTappedAraound()
         setLogoImage()
         setMotoLabel()
         setEmailTextField()
@@ -152,7 +152,7 @@ class SignupViewController: UIViewController, UITextFieldDelegate {
             warningLabel.isHidden = true
        }
        
-       if isValidEmail(email) {
+       if isValidEmail(email)  && email.lowercased() != registeredEmail{
            nextButton.isEnabled = true
            nextButton.backgroundColor = UIColor(red: 93/255, green: 95/255, blue: 219/255, alpha: 1)
            nextButton.setTitleColor(.white, for: .normal)

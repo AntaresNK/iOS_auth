@@ -9,7 +9,7 @@ import UIKit
 
 class AlertViewController: UIViewController {
     var rootVCAlert = ""
-    let rootVCSplash = "splashVC"
+    let rootVCSignup = "splashVC"
     let rootVCSignin = "signinVC"
     
     var emailLabel = ""
@@ -116,7 +116,7 @@ class AlertViewController: UIViewController {
     }
     
     @objc func closeButtonTapped() {
-        if rootVCAlert == rootVCSplash {
+        if rootVCAlert == rootVCSignup {
             let profileVC = ProfileViewController()
             profileVC.email = emailLabel
             profileVC.modalPresentationStyle = .fullScreen
