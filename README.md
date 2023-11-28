@@ -25,7 +25,7 @@ This is an iOS application for user registration and authorization with a clean 
   - **SigninViewController**: Allows registered users to log in using their email and password. Sign in button becomes enable only if both email and password are correct (you can use email: "qwerty@gmail.co", password: "Qwer23#"). If email and/or password is wrong, appears text warning "Wrong email or password". 
 - ### Create / Reset Password
   - **CreatePasswordViewController**:  Users can create a new or reset existing one if they forget it. To set, it is needed to enter the text in the `passwordTextField`  satisfying requirements stated below of the cells. Each time required symbol is typed, the "requirement" becomes colored. It is needed to confirm the password on the `repeatPasswordTextField`. When enetered passwords match, `nextButton` becomes enabled and directs to Splash Screen. Please note that TextFields have secure entry and if you want to see the entered text, tap `showPasswordButton`.
-    **PopUpViewController**:  After resetting of the password, appears the popup message informing about successfull reset of the password.
+  - **PopUpViewController**:  After resetting of the password, appears the popup message informing about successfull reset of the password.
 
 ## Installation
 1. Clone or download the repository to your local machine.
